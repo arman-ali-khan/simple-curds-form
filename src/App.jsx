@@ -22,7 +22,7 @@ const App = () => {
   console.log(tableData);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/tableData`)
+      .get(`${import.meta.env.VITE_APP_SERVER_URL}/tableData`)
       .then((res) => setTableData(res.data));
   }, [update]);
 

@@ -19,7 +19,7 @@ const UpdateModal = ({ updateModal, setUpdateModal, info }) => {
     watch,
     formState: { errors },
   } = useForm({
-    defaultValues: async () => fetch(`http://localhost:5000/tableData/${info.id}`)
+    defaultValues: async () => fetch(`${import.meta.env.VITE_APP_SERVER_URL}/tableData/${info.id}`)
   });
 
 //   Handle Update data
@@ -32,7 +32,7 @@ const UpdateModal = ({ updateModal, setUpdateModal, info }) => {
       phone: data.phone,
       hobbies: data.hobbies,
     };
-    fetch(`http://localhost:5000/tableData/${info.id}`, {
+    fetch(`${import.meta.env.VITE_APP_SERVER_URL}/tableData/${info.id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

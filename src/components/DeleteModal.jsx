@@ -12,7 +12,7 @@ const DeleteModal = ({showModal,setShowModal,info}) => {
 
    const handleDelete =id=>{
     setLoading(true)
-    fetch(`http://localhost:5000/tableData/${id}`,{
+    fetch(`${import.meta.env.VITE_APP_SERVER_URL}/tableData/${id}`,{
         method:'DELETE',
         headers:{
             'content-type':'application/json'

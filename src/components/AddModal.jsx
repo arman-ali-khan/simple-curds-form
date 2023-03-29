@@ -13,7 +13,7 @@ const AddModal = ({showModal,setShowModal}) => {
   const {update,setUpdate} = useContext(UpdateProvider)
   // get nanoid for unique id
   const id  = nanoid(10) 
-
+  // react hook form
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     const handleFormData = data => {
       setLoading(true)
@@ -24,7 +24,7 @@ const AddModal = ({showModal,setShowModal}) => {
         phone: data.phone,
         hobbies: data.hobbies
       }
-      fetch(`http://localhost:5000/tableData`,{
+      fetch(`${import.meta.env.VITE_APP_SERVER_URL}/tableData`,{
         method:'POST',
         headers:{
           'content-type':'application/json'
