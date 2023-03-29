@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AddModal from './components/AddModal';
 
 const App = () => {
   const [showModal,setShowModal] = useState(false)
@@ -87,6 +88,7 @@ const App = () => {
             </div>
         </div>
     </div>
+    <AddModal showModal={showModal} setShowModal={setShowModal} />
 </section>
   );
 };
