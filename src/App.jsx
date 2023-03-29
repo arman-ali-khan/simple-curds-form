@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AddModal from "./components/AddModal";
 import TableRow from "./components/TableRow";
 import axios from "axios";
+import { UpdateProvider } from "./context/ContextProvider";
 
 const App = () => {
+  const {update} = useContext(UpdateProvider)
   const [showModal, setShowModal] = useState(false);
   const [getRow, setGetRow] = useState();
 
@@ -22,7 +24,7 @@ const App = () => {
     axios
       .get(`http://localhost:5000/tableData`)
       .then((res) => setTableData(res.data));
-  }, []);
+  }, [update]);
 
   return (
     <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">

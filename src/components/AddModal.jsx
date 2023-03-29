@@ -1,14 +1,22 @@
 import { nanoid } from 'nanoid'
+import { useContext, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { UpdateProvider } from '../context/ContextProvider';
+import Loading from './Loading';
 
 const AddModal = ({showModal,setShowModal}) => {
+  // Loading
+  const [loading,setLoading] = useState(false)
+  // Constext provider
+  const {update,setUpdate} = useContext(UpdateProvider)
   // get nanoid for unique id
   const id  = nanoid(10) 
 
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     const handleFormData = data => {
+      setLoading(true)
       const tableData = {
         id,
         name: data.name,
@@ -28,7 +36,11 @@ const AddModal = ({showModal,setShowModal}) => {
         console.log(data)
         setShowModal(!showModal)
         reset()
+        setUpdate(!update)
         toast.success('Hobbie added')
+        setLoading(false)
+      }).catch(err=>{
+        setLoading(false)
       })
         
     };
@@ -78,7 +90,9 @@ const AddModal = ({showModal,setShowModal}) => {
                 className='bg-rose-100 text-rose-600 px-5 rounded-sm py-2 cursor-pointer select-none'>Cancel</label> 
 
                 {/* Save Button*/}
-                 <button className='bg-teal-100 text-teal-600 px-5 rounded-sm py-2'>Save</button>
+                 <button disabled={loading} className='bg-teal-100 text-teal-600 px-5 rounded-sm py-2'>
+                  {loading ? <Loading />:'Save'}
+                 </button>
                </div>
                
             </form>

@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { UpdateProvider } from '../context/ContextProvider';
+import Loading from './Loading';
 
 const DeleteModal = ({showModal,setShowModal,info}) => {
+    // Context provider
+    const {update,setUpdate} = useContext(UpdateProvider)
+
+    // loading
+    const [loading,setLoading] = useState(false)
+
    const handleDelete =id=>{
+    setLoading(true)
     fetch(`http://localhost:5000/tableData/${id}`,{
         method:'DELETE',
         headers:{
@@ -14,6 +23,8 @@ const DeleteModal = ({showModal,setShowModal,info}) => {
         console.log(data)
         toast.success(`${info.id} Deleted`)
         setShowModal(!showModal)
+        setUpdate(!update)
+        setLoading(false)
     })
    }
 
@@ -35,7 +46,9 @@ const DeleteModal = ({showModal,setShowModal,info}) => {
        className='bg-teal-100 text-teal-600 px-5 rounded-sm py-2 cursor-pointer select-none'>Cancel</label> 
 
        {/* Save Button*/}
-        <button onClick={()=>handleDelete(info.id)} className='bg-rose-100 text-rose-600 px-5 rounded-sm py-2'>Confirm</button>
+        <button disabled={loading} onClick={()=>handleDelete(info.id)} className='bg-rose-100 text-rose-600 px-5 rounded-sm py-2'>
+            {loading ? <Loading /> :'Confirm'}
+        </button>
       </div>
         </div>
      

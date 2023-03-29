@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { UpdateProvider } from "../context/ContextProvider";
+import Loading from "./Loading";
 
 const UpdateModal = ({ updateModal, setUpdateModal, info }) => {
+    // Loading
+    const [loading,setLoading] = useState(false)
+      // Constext provider
+  const {update,setUpdate} = useContext(UpdateProvider)
+
+//   react hook form
   const {
     register,
     handleSubmit,
@@ -12,7 +22,9 @@ const UpdateModal = ({ updateModal, setUpdateModal, info }) => {
     defaultValues: async () => fetch(`http://localhost:5000/tableData/${info.id}`)
   });
 
+//   Handle Update data
   const handleFormData = (data) => {
+    setLoading(false)
     const tableData = {
       id:info.id,
       name: data.name,
@@ -32,6 +44,8 @@ const UpdateModal = ({ updateModal, setUpdateModal, info }) => {
         console.log(data);
         setUpdateModal(!updateModal);
         toast.success("Hobbie Updated");
+        setUpdate(!update)
+        setLoading(false)
       });
   };
   return (
@@ -80,7 +94,9 @@ const UpdateModal = ({ updateModal, setUpdateModal, info }) => {
     className='bg-rose-100 text-rose-600 hover:bg-rose-200 px-5 rounded-sm py-2 cursor-pointer select-none'>Cancel</label> 
 
     {/* Save Button*/}
-     <button className='bg-teal-100 text-teal-600 hover:bg-teal-200 px-5 rounded-sm py-2'>Update</button>
+     <button type="submit" className='bg-teal-100 text-teal-600 hover:bg-teal-200 px-5 rounded-sm py-2'>
+        {loading? <Loading /> :'Update'}
+     </button>
    </div>
    
 </form>
