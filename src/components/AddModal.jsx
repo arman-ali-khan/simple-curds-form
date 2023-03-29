@@ -37,7 +37,7 @@ const AddModal = ({showModal,setShowModal}) => {
                 {/* outside click to hide modal */}
                  <div onClick={()=>setShowModal(!showModal)} className={`w-screen z-10 h-screen ${showModal ?'fixed top-0 left-0':'hidden'}`}></div>
                 {/* Form */}
-            <form onSubmit={handleSubmit(handleFormData)} action="" className={`bg-base-200 w-96 overflow-y-scroll z-30 border-2 ${showModal ?'fixed top-[15%] transition-all duration-300':'absolute -top-[600px]  transition-all duration-300'} shadow-slate-400 rounded-md backdrop-blur-sm backdrop-contrast-100 shadow-2xl py-4 px-4`}>
+            <form onSubmit={handleSubmit(handleFormData)} action="" className={`bg-base-200 w-96  z-30 border-2 ${showModal ?'fixed top-[15%] transition-all duration-300':'absolute -top-[600px]  transition-all duration-300'} shadow-slate-400 rounded-md backdrop-blur-sm backdrop-contrast-100 shadow-2xl py-4 px-4`}>
 
                 {/* Full Name */}
                <div className='mt-2'>

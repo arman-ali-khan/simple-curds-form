@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import DeleteModal from "./DeleteModal";
+import UpdateModal from "./UpdateModal";
 
 const TableRow = ({ info, handleCheckbox }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const [updateModal,setUpdateModal] = useState(false)
   const { id, name, email, hobbies, phone } = info;
 
   return (
@@ -48,7 +49,7 @@ const TableRow = ({ info, handleCheckbox }) => {
       </td>
       <td className="p-2 whitespace-nowrap">
         <div className="text-lg text-center">
-          <button className="text-sm bg-blue-100 text-blue-600 px-4 py-1 rounded hover:bg-blue-200 transition-all duration-150">
+          <button onClick={()=>setUpdateModal(!updateModal)} className="text-sm bg-blue-100 text-blue-600 px-4 py-1 rounded hover:bg-blue-200 transition-all duration-150">
             Update
           </button>
           <button onClick={()=>setShowModal(!showModal)} className="text-sm bg-rose-100 text-rose-600 px-4 py-1 rounded hover:bg-rose-200 transition-all duration-150">
@@ -58,6 +59,7 @@ const TableRow = ({ info, handleCheckbox }) => {
       </td>
     </tr>
       <DeleteModal info={info} showModal={showModal} setShowModal={setShowModal} />
+      <UpdateModal info={info} updateModal={updateModal} setUpdateModal={setUpdateModal} />
       </>
   );
 };

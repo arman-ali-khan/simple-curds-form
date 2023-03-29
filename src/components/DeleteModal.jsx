@@ -1,7 +1,22 @@
 import React from 'react';
+import { toast } from 'react-hot-toast';
 
 const DeleteModal = ({showModal,setShowModal,info}) => {
-  
+   const handleDelete =id=>{
+    fetch(`http://localhost:5000/tableData/${id}`,{
+        method:'DELETE',
+        headers:{
+            'content-type':'application/json'
+        }
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data)
+        toast.success(`${info.id} Deleted`)
+        setShowModal(!showModal)
+    })
+   }
+
     return (
         <div className='flex justify-center items-center'>
 
@@ -17,11 +32,10 @@ const DeleteModal = ({showModal,setShowModal,info}) => {
       <div className='flex justify-end gap-3 my-3'>
        {/* Cancel Button */}
        <label onClick={()=>setShowModal(!showModal)} 
-       onClickCapture={()=>reset()}
        className='bg-teal-100 text-teal-600 px-5 rounded-sm py-2 cursor-pointer select-none'>Cancel</label> 
 
        {/* Save Button*/}
-        <button className='bg-rose-100 text-rose-600 px-5 rounded-sm py-2'>Confirm</button>
+        <button onClick={()=>handleDelete(info.id)} className='bg-rose-100 text-rose-600 px-5 rounded-sm py-2'>Confirm</button>
       </div>
         </div>
      
