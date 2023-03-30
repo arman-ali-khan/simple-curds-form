@@ -117,7 +117,7 @@ const App = () => {
                 <tfoot>
                   <tr>
                     <td>
-                      <a onClick={handleGetSelectedRows} href={`mailto:info@redpositive.in?body=${sendData}`} className="px-4 py-2 rounded-sm bg-blue-500 hover:bg-blue-600 text-white">
+                      <a onClick={handleGetSelectedRows} href={`mailto:info@redpositive.in?body=${sendData}`} className="px-4 py-2 disabled:bg-gray-200 rounded-sm bg-blue-500 hover:bg-blue-600 text-white">
                         Send
                       </a>
                     </td>
