@@ -2,20 +2,30 @@ import React, { useState } from "react";
 import DeleteModal from "./DeleteModal";
 import UpdateModal from "./UpdateModal";
 
-const TableRow = ({ info, handleCheckbox }) => {
+const TableRow = ({ rowData, setSelectedRows,selectedRows,handleGetSelectedRows}) => {
+
   const [showModal, setShowModal] = useState(false);
   const [updateModal,setUpdateModal] = useState(false)
-  const { id, name, email, hobbies, phone } = info;
 
+  const { id, name, email, hobbies, phone } = rowData;
+
+  const handleRowData = (e) =>{
+    e.target.checked
+    ? setSelectedRows([...selectedRows, rowData.id])
+    : setSelectedRows(selectedRows.filter((id) => id !== rowData.id))
+  }
+ 
   return (
   <>
-    <tr name="trow">
+    <tr key={rowData.id} name="trow">
       <td className="p-2 whitespace-nowrap">
         <div className="flex items-center">
           <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3 flex justify-center items-center">
             <input
+             checked={selectedRows.includes(rowData.id)}
+             onChange={(e) =>handleRowData(e)}
+             onClick={handleGetSelectedRows}
               type="checkbox"
-              onClick={(e) => handleCheckbox(e)}
               name=""
               value={id}
               className="h-4 w-4 cursor-pointer appearance-none border-[1px] border-gray-400 shadow-lg rounded-md checkbox"
@@ -25,9 +35,7 @@ const TableRow = ({ info, handleCheckbox }) => {
       </td>
       {/* ID */}
       <td className="p-2 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="text-left font-medium text-green-500">{id}</div>
-        </div>
+          <p className="text-left font-medium text-green-500">{id}</p>
       </td>
       {/* NAME */}
       <td className="p-2 whitespace-nowrap">
@@ -58,8 +66,8 @@ const TableRow = ({ info, handleCheckbox }) => {
         </div>
       </td>
     </tr>
-      <DeleteModal info={info} showModal={showModal} setShowModal={setShowModal} />
-      <UpdateModal info={info} updateModal={updateModal} setUpdateModal={setUpdateModal} />
+      <DeleteModal rowData={rowData} showModal={showModal} setShowModal={setShowModal} />
+      <UpdateModal rowData={rowData} updateModal={updateModal} setUpdateModal={setUpdateModal} />
       </>
   );
 };

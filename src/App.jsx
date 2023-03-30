@@ -3,32 +3,45 @@ import AddModal from "./components/AddModal";
 import TableRow from "./components/TableRow";
 import axios from "axios";
 import { UpdateProvider } from "./context/ContextProvider";
+import Loading from "./components/Loading";
 
 const App = () => {
+  // loading
+  const [loading,setLoading] = useState(true)
+  // Context
   const {update} = useContext(UpdateProvider)
+  // add new data modal show and hide 
   const [showModal, setShowModal] = useState(false);
-  const [getRow, setGetRow] = useState();
+  // selected row data 
+  const [selectedRows, setSelectedRows] = useState([]);
 
-  const [selectedRows, setSelectedRows] = useState();
-  const handleCheckbox = (event) => {
-    let selected = [];
-    selected.push(...selected, event.target.value);
-    if (event.target.checked) {
-      console.log(selected);
-    }
-  };
+  // send data store
+  const [sendData,setSendData] = useState([])
 
+  // send data to email by clicking send button
+  const handleGetSelectedRows = () => {
+        const selectedData = tableData.filter((row) => selectedRows.includes(row.id));
+        selectedData.map(row=>{
+          const data = 
+          ` ID:${row.id} - Name: ${row.name} -  Email: ${row.email} - Hobbies: ${row.hobbies} `
+            setSendData([...sendData,data])
+        })
+      };
+
+      // table data
   const [tableData, setTableData] = useState([]);
-  console.log(tableData);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_APP_SERVER_URL}/tableData`)
-      .then((res) => setTableData(res.data));
+      .then((res) => {
+        setTableData(res.data)
+        setLoading(false)
+      });
   }, [update]);
 
   return (
-    <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
-      <div className="flex flex-col justify-center h-full">
+    <section className="antialiased bg-gray-100  text-gray-600 h-screen px-4">
+      <div className="py-12 h-full">
         {/* Table  */}
         <div className="w-full max-w-6xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200 ">
           <header className="px-5 py-4 border-b border-gray-100 flex justify-between">
@@ -42,9 +55,24 @@ const App = () => {
             </button>
           </header>
           <div className="p-3">
-            <div className="overflow-x-auto">
-              <table className="table-auto w-full">
-                <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+          {
+                    loading ? <div className="flex flex-col gap-2">
+                    <div className="bg-gray-200 py-3 rounded-md justify-center items-center h-4 w-auto flex px-3 gap-3">
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                    </div>
+                    <div className="bg-gray-200 py-3 rounded-md justify-center items-center h-4 w-auto flex px-3 gap-3 animate-pulse">
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                      <div className="h-4 w-full animate-pulse rounded-2xl bg-gray-300"></div>
+                    </div>
+                    </div>
+                    :
+                      <table className="table-auto  w-full ">
+                <thead className="text-xs font-semibold  uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th className="p-2 whitespace-nowrap">
                       <div className="font-semibold text-left"></div>
@@ -73,27 +101,31 @@ const App = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="text-sm divide-y divide-gray-100">
-                  {tableData.map((info, index) => (
-                    <TableRow
-                      key={info._id}
-                      info={info}
-                      handleCheckbox={handleCheckbox}
-                    />
-                  ))}
-                </tbody>
-                {/* <tfoot>
+               
+               <tbody className="text-sm divide-y divide-gray-100">
+                  
+                    {tableData.map((rowData) => (
+                      <TableRow
+                        key={rowData._id}
+                        rowData={rowData}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        handleGetSelectedRows={handleGetSelectedRows}
+                      />
+                    ))}
+                  </tbody>
+                <tfoot>
                   <tr>
                     <td>
-                      {" "}
-                      <a  className="px-4 py-2 rounded-sm bg-blue-500 hover:bg-blue-600 text-white">
+                      <a onClick={handleGetSelectedRows} href={`mailto:info@redpositive.in?body=${sendData}`} className="px-4 py-2 rounded-sm bg-blue-500 hover:bg-blue-600 text-white">
                         Send
                       </a>
                     </td>
                   </tr>
-                </tfoot> */}
+                </tfoot>
               </table>
-            </div>
+                  }
+            
           </div>
         </div>
       </div>

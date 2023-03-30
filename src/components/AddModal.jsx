@@ -49,7 +49,7 @@ const AddModal = ({showModal,setShowModal}) => {
                 {/* outside click to hide modal */}
                  <div onClick={()=>setShowModal(!showModal)} className={`w-screen z-10 h-screen ${showModal ?'fixed top-0 left-0':'hidden'}`}></div>
                 {/* Form */}
-            <form onSubmit={handleSubmit(handleFormData)} action="" className={`bg-base-200 w-96  z-30 border-2 ${showModal ?'fixed top-[15%] transition-all duration-300':'absolute -top-[600px]  transition-all duration-300'} shadow-slate-400 rounded-md backdrop-blur-sm backdrop-contrast-100 shadow-2xl py-4 px-4`}>
+            <form onSubmit={handleSubmit(handleFormData)} action="" className={`bg-base-200 sm:w-96  z-30 border-2 ${showModal ?'fixed top-[15%] transition-all duration-300':'absolute -top-[600px]  transition-all duration-300'} shadow-slate-400 rounded-md backdrop-blur-sm backdrop-contrast-100 shadow-2xl py-4 px-4`}>
 
                 {/* Full Name */}
                <div className='mt-2'>
@@ -78,7 +78,7 @@ const AddModal = ({showModal,setShowModal}) => {
                {/* Hobbies */}
                <div className='mt-2'>
                 <label htmlFor="hobbies">Hobbies <span className='text-rose-500'>*</span></label>
-               <textarea  {...register("hobbies", { required: "Hobbies is required" })} className='w-full px-4 bg-transparent h-24 py-2 border-2 rounded-md' />
+               <input  type='text' {...register("hobbies", { required: "Hobbies is required" })} className='w-full px-4 bg-transparent py-2 border-2 rounded-md' />
                  {/* Validation Warning */}
                {errors.hobbies && <p role="alert" className='text-rose-500'>{errors.hobbies?.message}</p>}
                </div>
